@@ -1,0 +1,177 @@
+@media screen and (min-width: 414px) {
+    .bottom {
+        display: none;
+    }
+
+    .home__nav {
+        display: none;
+    }
+}
+
+
+
+
+
+
+@media screen and (max-width: 414px) {
+    .navbar {
+        display: none;
+    }
+
+    .home {
+        height: 100vh;
+        background-color: #ececec;
+        display: flex;
+        flex-direction: column;
+
+
+        .home__nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            // .brand__logo {}
+
+            // .avatar {
+            //     // background-color: #fff;
+            // }
+
+
+        }
+
+        .home__body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+
+            .home__block {
+                .attendence__card {
+                    height: 200px;
+                    background-color: white;
+                    border-radius: 10px;
+                    margin: 10px;
+                }
+
+                .options {
+                    // display: flex;
+                    margin: 15px 5px;
+
+                    .option {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        background-color: #3b98de;
+                        border-radius: 5px;
+                        color: white;
+
+                        padding: 10px 5px;
+
+                        .name {
+                            text-decoration: none;
+                            color: white;
+                        }
+                    }
+                }
+            }
+
+            .attendence__block {
+                flex: 1;
+                display: grid;
+
+                .clock {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+
+                    .time {
+                        color: #154EB7;
+                        color: #3b98de;
+                        font-size: 4rem;
+
+
+                        .a {
+                            font-size: 1rem;
+                        }
+                    }
+
+                    .date {
+                        font-size: 1rem;
+                    }
+                }
+
+                .subject__block {
+
+                    .details {
+                        display: grid;
+                        justify-items: center;
+                        gap: 20px;
+
+                        .header {
+                            text-align: center;
+                        }
+
+                        // .sub__name {}
+
+                        // .timings {}
+                    }
+
+                    .mark__btns {
+                        margin: 20px;
+                        display: flex;
+                        justify-content: space-evenly;
+                    }
+                }
+            }
+
+            .quote__section {
+                flex: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-wrap: wrap;
+
+                // .quote__text{
+
+                // }
+            }
+
+            .time_table {
+                flex: 1;
+
+                // .table {
+                //     display: grid;
+                //     grid-template-rows: 1fr 1fr;
+                // }
+            }
+
+
+        }
+
+        .bottom {
+            position: fixed;
+            bottom: -2px;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .float__aside {
+            position: fixed;
+            right: 15px;
+            bottom: 70px;
+        }
+    }
+
+}
+
+.row {
+    display: flex;
+    justify-content: flex-start;
+    border-bottom: 1px solid #DFDFDF;
+    padding: 0 1.25rem;
+
+    .col {
+        flex: 1;
+    }
+
+}

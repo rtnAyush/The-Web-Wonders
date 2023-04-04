@@ -1,23 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import Home from "./pages/Home";
+import './App.css'
+import { Route, Routes } from "react-router-dom";
+import Login from "./components/Auth/Login";
+import StudentLeaveForm from "./components/LeaveForm/StudentLeaveForm";
+// import Attendence from "./components/Home/Attendence";
+// import TimeTable from "./components/TimeTable/TimeTable";
 
-function App() {
+const App = () => {
+
+
+
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route path="/" element={
+          <Home />
+        }
+        />
+
+        {/* <Route path='/attendance' element={
+          <Attendence />
+        }
+        />
+
+
+        <Route path='/time-table' element={
+          <TimeTable />
+        }
+        /> */}
+
+        <Route path="/auth/login" element={
+          <Login />
+        }
+        />
+
+        <Route path="/leave-form" element={
+          <StudentLeaveForm />
+        }
+        />
+
+
+      </Routes>
     </div>
   );
 }
