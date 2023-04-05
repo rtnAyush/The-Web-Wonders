@@ -8,52 +8,190 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 import useGeoLocation from "../Hooks/useGeoLocation";
 
+import DoneGif from '../../img/happy.gif'
+import SadGif from '../../img/sad.gif'
+import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
+
+import StudentDataService from '../../services/student.service'
+import { useStateValue } from '../../context/index/StateProvider';
 const SubjectAtten = ({ subject, startTime, endTime }) => {
+
+    const [{ user }] = useStateValue()
     const location = useGeoLocation()
 
     const [open, setOpen] = useState(false);
+    const [student, setStudent] = useState();
     const [userLocation, setUserLocation] = useState({});
+    const [isPresent, setIsPresent] = useState(false);
+    console.log(subject);
 
     useEffect(() => {
 
+        fetchStudent()
 
-    })
+    }, [open])
 
     const handleClose = () => {
         setOpen(false);
     };
 
+    const fetchStudent = async () => {
 
-    const handlePresent = () => {
-        setOpen(true);
+        const id = localStorage.getItem('id')
+        try {
+            if (id !== undefined && id !== "") {
+                const docSnap = await StudentDataService.getStudent(id);
+                setStudent(docSnap.data())
+                // console.log('done');
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+
+
+    const handlePresent = async () => {
         let dis
-        // getLocation()
+        // console.log(location);
+        if (checkDoubleClick()) {
+            return
+        }
+
+
         if (location.loaded) {
+
             dis = distance(location.coordinates.lat, location.coordinates.lng)
-            console.log(dis);
+            // console.log(dis);
             setUserLocation(dis)
+
+            if (dis <= 2000) {
+                setIsPresent(true)
+
+
+                const id = localStorage.getItem('id')
+
+
+                // console.log('ssss', student);
+
+                const newData = await setNewData()
+
+                // console.log('if');
+
+                // console.log(newData);
+                // console.log(id);
+                try {
+                    if (id !== undefined && id !== "") {
+                        await StudentDataService.updateStudent(id, newData);
+                        console.log('done');
+
+                        const currDate = new Date()
+                        let currTime
+                        if (currDate.getMinutes() < 10) {
+                            currTime = currDate.getHours() + ":0" + currDate.getMinutes()
+                        } else {
+                            currTime = currDate.getHours() + ":" + currDate.getMinutes()
+                        }
+                        localStorage.setItem('clickTime', currTime)
+                    }
+                } catch (err) {
+                    console.log(err);
+                }
+
+
+
+            } else {
+                setIsPresent(false)
+                console.log('else');
+            }
+            console.log(user);
+
+            setOpen(true)
+
+
+
+        } else {
+            console.log('else1');
+            alert(location?.error.message)
         }
 
 
     }
 
+    const setNewData = () => {
+        switch (subject) {
+            case 'MA251':
+                return {
+                    MA251: {
+                        present: isNaN(student?.MA251?.present) ? 1 : student.MA251.present + 1,
+                        total: isNaN(student?.MA251?.total) ? 1 : student.MA251.total + 1,
+                    },
+                }
+            case 'HM251':
+                return {
+                    HM251: {
+                        present: isNaN(student?.HM251?.present) ? 1 : student.HM251.present + 1,
+                        total: isNaN(student?.HM251?.total) ? 1 : student.HM251.total + 1,
+                    },
+                }
+            case 'CS251':
+                return {
+                    CS251: {
+                        present: isNaN(student?.CS251?.present) ? 1 : student.CS251.present + 1,
+                        total: isNaN(student?.CS251?.total) ? 1 : student.CS251.total + 1,
+                    },
+                }
+            case 'CS252':
+                return {
+                    CS252: {
+                        present: isNaN(student?.CS252?.present) ? 1 : student.CS252.present + 1,
+                        total: isNaN(student?.CS252?.total) ? 1 : student.CS252.total + 1,
+                    },
+                }
+            case 'CS253':
+                return {
+                    CS253: {
+                        present: isNaN(student?.CS253?.present) ? 1 : student.CS253.present + 1,
+                        total: isNaN(student?.CS253?.total) ? 1 : student.CS253.total + 1,
+                    },
+                }
+            case 'CS254':
+                return {
+                    CS254: {
+                        present: isNaN(student?.CS254?.present) ? 1 : student.CS254.present + 1,
+                        total: isNaN(student?.CS254?.total) ? 1 : student.CS254.total + 1,
+                    },
+                }
+            case 'CS255':
+                return {
+                    CS255: {
+                        present: isNaN(student?.CS255?.present) ? 1 : student.CS255.present + 1,
+                        total: isNaN(student?.CS255?.total) ? 1 : student.CS255.total + 1,
+                    },
+                }
+            case 'CS256':
+                return {
+                    CS256: {
+                        present: isNaN(student?.CS256?.present) ? 1 : student.CS256.present + 1,
+                        total: isNaN(student?.CS256?.total) ? 1 : student.CS256.total + 1,
+                    },
+                }
+            default:
+                break;
+        }
+    }
 
-    // const getGeolocation = () => {
-    //     return new Promise((resolve, reject) =>
-    //         navigator.geolocation.getCurrentPosition(resolve, reject)
-    //     );
-    // }
-
-
-    // const getLocation = async () => {
-    //     console.log('hello');
-    //     try {
-    //         const position = await getGeolocation();
-    //         console.log(position);
-    //     } catch (err) {
-    //         console.error(err.message);
-    //     }
-    // }
+    const checkDoubleClick = () => {
+        const clickedTime = localStorage.getItem('clickTime')
+        console.log(clickedTime);
+        if (clickedTime >= startTime && clickedTime <= endTime) {
+            alert('no need to mark your attendance again for this class')
+            return true
+        } else {
+            localStorage.removeItem('clickTime')
+            return false
+        }
+    }
 
     const distance = (lat1, lon1) => {
         // coordinates of center of the class
@@ -92,7 +230,7 @@ const SubjectAtten = ({ subject, startTime, endTime }) => {
                     <Button
                         variant="contained"
                         onClick={handlePresent}
-                    // disabled={subject === 'No Class' ? true : false}
+                        disabled={subject === 'No Class' || subject === 'NoClass' || subject === 'lunch' || subject === 'break' ? true : false}
                     >
                         Present
                     </Button>
@@ -100,7 +238,7 @@ const SubjectAtten = ({ subject, startTime, endTime }) => {
 
                     <Button
                         variant="outlined"
-                        disabled={subject === 'No Class' ? true : false}
+                        disabled={subject === 'No Class' || subject === 'NoClass' || subject === 'lunch' || subject === 'break' ? true : false}
                     >
                         Absent
                     </Button>
@@ -115,31 +253,47 @@ const SubjectAtten = ({ subject, startTime, endTime }) => {
                         open={open}
                         onClose={handleClose}
                     >
-                        <DialogTitle style={{ textAlign: 'center' }}>
-                            {"Great your Attendence has been marked"}
-                        </DialogTitle>
-                        <DialogContent>
-                            <DialogContentText>
-                                Icons
-                                {/* {
-                                    location.loaded
-                                        ?
-                                        <>
-                                            JSON.stringify(location)
-                                        </>
-                                        :
-                                        "Location data not available yet."
-                                } */}
-                                <span>{userLocation}</span>
+                        {
+                            isPresent ?
+                                <>
+                                    <DialogTitle style={{ textAlign: 'center' }} className='dialog__done'>
+                                        {"Great your Attendence has been marked"}
+                                    </DialogTitle>
+                                    <DialogContent>
+                                        <DialogContentText className='dialog__done'>
 
+                                            <img src={DoneGif} alt="" style={{ width: '100px', objectFit: 'cover' }} />
+                                            <span>{userLocation}</span>
+                                        </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button onClick={handleClose} autoFocus>
+                                            Thanks
+                                        </Button>
+                                    </DialogActions>
+                                </>
+                                :
+                                <>
+                                    <DialogTitle style={{ textAlign: 'center' }} className='dialog__done'>
+                                        <SentimentDissatisfiedIcon />
+                                        <strong>Oops, Invailed Attempt to mark attendence</strong>
+                                    </DialogTitle>
+                                    <DialogContent>
+                                        <DialogContentText className='dialog__done'>
 
-                            </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleClose} autoFocus>
-                                Thanks
-                            </Button>
-                        </DialogActions>
+                                            <img src={SadGif} alt="" style={{ width: '100px', objectFit: 'cover' }} />
+                                            <span>{userLocation}</span>
+
+                                        </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button onClick={handleClose} autoFocus>
+                                            Thanks
+                                        </Button>
+                                    </DialogActions>
+                                </>
+                        }
+
                     </Dialog>
                 </div>
             }

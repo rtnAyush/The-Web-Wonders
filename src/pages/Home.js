@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import '../components/Home/Home.scss'
-import Nav from '../components/Home/Nav'
+
 import Attendence from '../components/Home/Attendence'
 import { Link, useNavigate } from 'react-router-dom'
 import { useStateValue } from '../context/index/StateProvider'
@@ -18,7 +18,7 @@ import TableDataService from '../services/table.service'
 const Home = () => {
 
     const navigate = useNavigate()
-    const [{ currRoute, todayTable }, dispacher] = useStateValue()
+    const [{ currRoute }, dispacher] = useStateValue()
 
     useEffect(() => {
 
@@ -47,13 +47,13 @@ const Home = () => {
     const fetchUser = async () => {
         try {
             const docSnap = await StudentDataService.getStudent(localStorage.getItem('id'));
-            // console.log("the record is :", docSnap.data());
+
             dispacher({
                 type: 'SET_USER',
                 payload: docSnap.data()
             })
         } catch (err) {
-            // setMessage({ error: true, msg: err.message });
+
             console.log(err);
         }
     };
@@ -80,7 +80,7 @@ const Home = () => {
         try {
             const docSnap = await TableDataService.getTable(day);
             const obj = docSnap.data()
-            console.log(obj);
+
 
             dispacher({
                 type: 'SET_TODAY_TABLE',
@@ -88,7 +88,7 @@ const Home = () => {
             })
 
         } catch (err) {
-            // setMessage({ error: true, msg: err.message });
+
             console.log(err);
         }
     };

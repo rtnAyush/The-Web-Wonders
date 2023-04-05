@@ -4,19 +4,21 @@ import { useStateValue } from '../../context/index/StateProvider';
 import SubjectAtten from './SubjectAtten';
 import Fab from '@mui/material/Fab';
 import RefreshIcon from '@mui/icons-material/Refresh';
-
+import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 
 const Attendence = () => {
-    const [{ todayTable }, dispacher] = useStateValue()
+    const [{ todayTable }] = useStateValue()
 
     const [currClass, setCurrClass] = useState({})
+    const [collage, setCollage] = useState('')
+
 
     const [refresh, setRefresh] = useState('')
 
     useEffect(() => {
 
         selectSubject()
-        // console.log('i am clicked');
+        // console.log('hello');
     }, [refresh])
 
 
@@ -25,46 +27,76 @@ const Attendence = () => {
 
         let randomNum = Math.floor(Math.random() * 10000)
         setRefresh(randomNum)
-        window.location.reload();
-        dispacher({
-            type: 'SET_CURR_ROUTE',
-            payload: 'attendance',
-        })
+
+        // window.location.reload();
+        // dispacher({
+        //     type: 'SET_CURR_ROUTE',
+        //     payload: 'attendance',
+        // })
     }
 
 
     const selectSubject = () => {
         const currDate = new Date()
 
-        const currTime = currDate.getHours() + ":" + currDate.getMinutes();
+        let currTime = '11:25'
 
-
-        const found = todayTable?.filter((val) => {
-            return (val.startTime <= currTime && val.endTime >= currTime)
-        })
-
-        if (found.length !== 0) {
-
-            const [obj] = found
-
-            setCurrClass(obj)
+        if (currDate.getMinutes() < 10) {
+            currTime = currDate.getHours() + ":0" + currDate.getMinutes()
         } else {
-            setCurrClass({
-                subject: 'break Time'
-            })
+            currTime = currDate.getHours() + ":" + currDate.getMinutes()
         }
+
+
+        // console.log(currTime);
+
+        if ((currTime >= '00:00' && currTime < '09:20') || (currTime >= '16:50' && currTime < '23:59')) {
+            console.log('out of schedule');
+
+            setCollage('End of Working Hour')
+        } else {
+
+            const found = todayTable?.filter((val) => {
+                return (val.endTime >= currTime && currTime >= val.startTime)
+            })
+
+            if (found.length !== 0) {
+
+                const [obj] = found
+
+                setCurrClass(obj)
+            }
+        }
+
+
+
     }
 
     return (
         <>
             <div className="attendence__block">
                 <Clock />
+                {
+                    collage === '' ?
+                        <SubjectAtten
+                            subject={currClass.subject}
+                            startTime={currClass.startTime}
+                            endTime={currClass.endTime}
+                        />
+                        :
+                        <div className="subject__block">
+                            <div className="details">
 
-                <SubjectAtten
-                    subject={currClass.subject}
-                    startTime={currClass.startTime}
-                    endTime={currClass.endTime}
-                />
+
+                                <h1 className='header'>{collage}</h1>
+
+                                <SentimentSatisfiedAltIcon style={{ scale: '2' }} />
+
+
+                            </div>
+                        </div>
+
+                }
 
             </div>
 
