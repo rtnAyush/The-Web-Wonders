@@ -30,7 +30,7 @@ export default function AccountMenu() {
 
     const handleLogout = () => {
 
-        localStorage.removeItem('token');
+        localStorage.removeItem('id');
         window.location.reload();
 
     };
@@ -46,7 +46,7 @@ export default function AccountMenu() {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        <Avatar sx={{ width: 32, height: 32 }}>{user?.name.charAt(0) + user?.name.charAt(1)}</Avatar>
+                        <Avatar sx={{ width: 32, height: 32 }}></Avatar>
                     </IconButton>
                 </Tooltip>
             </Box>

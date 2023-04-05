@@ -1,8 +1,6 @@
 // for useReducer parameters
 export const initialState = {
-    user: {
-        name: 'ayush'
-    },
+    user: null,
     currRoute: 'home',
     reqContent: '',
     userData: [],
@@ -18,7 +16,8 @@ export const initialState = {
     },
     authMsg: '',
     todayTable: [],
-    timeTable: {
+    timeTable: {},
+    timeTable1: {
         mon: [
             {
                 startTime: '09:20',
@@ -186,6 +185,11 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 currRoute: action.payload,
+            }
+        case 'SET_TIME_TABLE':
+            return {
+                ...state,
+                timeTable: action.payload,
             }
         case 'SET_TODAY_TABLE':
             return {

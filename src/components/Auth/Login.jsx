@@ -1,29 +1,61 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './Auth.scss'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import { useStateValue } from '../../context/index/StateProvider';
+import StudentDataService from '../../services/student.service'
 
 
 
 const Login = () => {
     // eslint-disable-next-line
     const [{ }, dispacher] = useStateValue()
+    const [students, setStudents] = useState([]);
+    const [uid, setUid] = useState('');
+    const [error, setError] = useState('');
+
     const navigate = useNavigate()
 
 
+    useEffect(() => {
+        getStudents()
+
+    }, [])
+
+
+
+
+    const getStudents = async () => {
+        const data = await StudentDataService.getAllStudents();
+        // console.log(data.docs);
+        setStudents(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+
+
     const handleUIDSubmit = (e) => {
+
         e.preventDefault()
 
-        dispacher({
-            type: 'SET_USER',
-            payload: {
-                username: 'Ayush',
-            }
+        const user = students.filter((s) => {
+            return s.roll === uid
         })
-        navigate('/')
+
+        if (user.length !== 0) {
+            dispacher({
+                type: 'SET_USER',
+                payload: user[0]
+            })
+
+
+            localStorage.setItem('id', user[0].id);
+
+            navigate('/')
+        } else {
+            setError('User does not exits')
+        }
     }
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -38,16 +70,10 @@ const Login = () => {
     }
 
 
-    // const handleGoogleLogin = (e) => {
-    //     if (!user) {
-    //         navigate('/')
-    //     }
-    // }
-
 
     return (
         <div className="auth">
-
+            <p>{error}</p>
             <div className="login">
                 <div className="logo">
                     SMS
@@ -71,6 +97,8 @@ const Login = () => {
                     </div>
 
                     <TextField
+                        value={uid}
+                        onChange={(e) => setUid(e.target.value)}
                         label="User Id"
                         type="text"
                         autoComplete="current-password"
@@ -78,6 +106,7 @@ const Login = () => {
                     />
 
                     <Button
+                        onClick={handleUIDSubmit}
                         type='submit'
                         variant="contained"
                     >
@@ -96,6 +125,7 @@ const Login = () => {
                     </div>
 
                     <TextField
+                        disabled
                         label="UserName"
                         type="text"
                         autoComplete="current-password"
@@ -103,6 +133,7 @@ const Login = () => {
                     />
 
                     <TextField
+                        disabled
                         label="Password"
                         type="password"
                         autoComplete="current-password"
@@ -110,6 +141,7 @@ const Login = () => {
                     />
 
                     <Button
+                        disabled
                         type='submit'
                         variant="contained"
                     >

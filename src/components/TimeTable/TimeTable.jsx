@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-// import EditIcon from '@mui/icons-material/Edit';
 import { useStateValue } from '../../context/index/StateProvider';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -22,23 +21,24 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
+
+import TableDataService from '../../services/table.service'
+
 const TimeTable = () => {
-    const [{ timeTable }, dispacher] = useStateValue()
+    const [{ todayTable, user }, dispacher] = useStateValue()
     const [open, setOpen] = useState(false);
     const [day, setDay] = useState('');
-    const [todayTable, setTodayTable] = useState([])
+    const [newTable, setNewTable] = useState([])
 
 
     useEffect(() => {
-
         const today = new Date()
-        getTodaySubjects(today.getDay())
+
+        setDay1(today.getDay())
+        setNewTable(todayTable)
 
     }, [])
 
-
-
-    console.log(timeTable);
 
     const updateTable = (index) => (e) => {
         const newArray = todayTable.map((item, i) => {
@@ -48,50 +48,120 @@ const TimeTable = () => {
                 return item;
             }
         });
-        setTodayTable(newArray);
+        setNewTable(newArray);
     };
-
 
 
     const handleClose = () => {
         setOpen(false);
     };
 
-    const handleFinalInput = () => {
+    const handleFinalInput = async () => {
         setOpen(false);
-        dispacher({
-            type: `UPDATE_${day}_TIME_TABLE`,
-            payload: todayTable,
-        })
+
+        const id = day
+
+        const today = new Date()
+
+        const newTimeTable = setNewSubjects(today.getDay())
+
+
+        try {
+            if (id !== undefined && id !== "") {
+                await TableDataService.updateTable(id, newTimeTable);
+                console.log('done');
+            }
+        } catch (err) {
+            console.log(err);
+        }
+        getTodaySubjects(today.getDay())
+
     };
 
-    const getTodaySubjects = (today) => {
+    const setNewSubjects = (today) => {
         switch (today) {
             case 1:
-                setTodayTable(timeTable.mon);
-                setDay('MON')
+                return {
+                    mon: newTable,
+                }
+            case 2:
+                return {
+                    tue: newTable,
+                }
+            case 3:
+                return {
+                    wed: newTable,
+                }
+            case 4:
+                return {
+                    thu: newTable,
+                }
+            case 5:
+                return {
+                    fri: newTable,
+                }
+            default:
+                break;
+        }
+    }
+
+    const setDay1 = (today) => {
+
+        switch (today) {
+            case 1:
+                setDay('mon')
                 break;
             case 2:
-                setTodayTable(timeTable.tue);
-                setDay('TUE')
+                setDay('tue')
                 break;
             case 3:
-                setTodayTable(timeTable.wed);
-                setDay('WED')
+                setDay('wed')
                 break;
             case 4:
-                setTodayTable(timeTable.thu);
-                setDay('THU')
+                setDay('thu')
                 break;
             case 5:
-                setTodayTable(timeTable.fri);
-                setDay('FRI')
+                setDay('fri')
                 break;
             default:
                 break;
         }
     }
 
+    const getTodaySubjects = (today) => {
+        switch (today) {
+            case 1:
+                return fetchTable('mon')
+            case 2:
+                return fetchTable('tue')
+            case 3:
+                return fetchTable('wed')
+            case 4:
+                return fetchTable('thu')
+            case 5:
+                return fetchTable('fri')
+            default:
+                break;
+        }
+    }
+
+    const fetchTable = async (day) => {
+
+        try {
+            const docSnap = await TableDataService.getTable(day);
+            const obj = docSnap.data()
+            console.log(obj);
+
+            dispacher({
+                type: 'SET_TODAY_TABLE',
+                payload: Object.values(obj)[0]
+            })
+
+        } catch (err) {
+            // setMessage({ error: true, msg: err.message });
+            console.log(err);
+        }
+    };
 
     return (
         <>
@@ -110,7 +180,7 @@ const TimeTable = () => {
                             </TableHead>
                             <TableBody>
                                 {
-                                    todayTable.map((val, idx) => (
+                                    newTable.map((val, idx) => (
                                         <TableRow key={idx}>
                                             <TableCell component="th" scope="row">
                                                 {val.startTime + " - " + val.endTime}
@@ -123,12 +193,14 @@ const TimeTable = () => {
                         </Table>
                     </TableContainer>
                 </section>
-
-                <div className="float__aside">
-                    <Fab color="primary" aria-label="add" onClick={() => setOpen(true)}>
-                        <EditIcon />
-                    </Fab>
-                </div>
+                {
+                    user?.cr ? <div className="float__aside">
+                        <Fab color="primary" aria-label="add" onClick={() => setOpen(true)}>
+                            <EditIcon />
+                        </Fab>
+                    </div>
+                        : null
+                }
             </div>
 
 
@@ -162,7 +234,7 @@ const TimeTable = () => {
 
                         </div>
                         {
-                            todayTable.map((val, idx) => {
+                            newTable.map((val, idx) => {
                                 return (
                                     <div className="row" key={idx}>
                                         <div className="col">

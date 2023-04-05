@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../components/Home/Home.scss'
 import Nav from '../components/Home/Nav'
 import Attendence from '../components/Home/Attendence'
@@ -8,97 +8,93 @@ import LabelBottomNavigation from '../components/Home/LabelBottomNavigation'
 import TimeTable from '../components/TimeTable/TimeTable'
 import HomeComponent from '../components/Home/HomeComponent'
 
+import StudentDataService from '../services/student.service'
+import TableDataService from '../services/table.service'
+
+
+
+
+
 const Home = () => {
 
     const navigate = useNavigate()
-    const [{ user, currRoute, timeTable }, dispacher] = useStateValue()
+    const [{ currRoute, todayTable }, dispacher] = useStateValue()
 
     useEffect(() => {
 
-        if (user) {
+
+
+        if (localStorage.getItem('id')) {
+
+            fetchUser()
             navigate('/')
 
         } else {
             navigate('/auth/login')
         }
 
+
+
         const today = new Date()
         getTodaySubjects(today.getDay())
 
 
-
-        // getLocation()
-
-    }, [navigate, user])
-
-    // const fetchUser = async () => {
-    //     try {
-    //         const { data } = await api.get('/auth/user', {
-    //             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    //         });
-
-    //         dispacher({
-    //             type: 'SET_USER',
-    //             payload: data,
-    //         })
-
-    //     } catch (err) {
-    //         // console.log(err.message);
-    //     }
-    // };
-    // function getPosition() {
-    //     return new Promise((resolve, reject) =>
-    //         navigator.geolocation.getCurrentPosition(resolve, reject)
-    //     );
-    // }
-
-    // const getLocation = async () => {
-    //     try {
-    //         const position = await getPosition();
-    //         console.log(position.coords.latitude);
-    //     } catch (err) {
-    //         console.error(err.message);
-    //     }
-    // }
+    }, [])
 
 
+
+
+    const fetchUser = async () => {
+        try {
+            const docSnap = await StudentDataService.getStudent(localStorage.getItem('id'));
+            // console.log("the record is :", docSnap.data());
+            dispacher({
+                type: 'SET_USER',
+                payload: docSnap.data()
+            })
+        } catch (err) {
+            // setMessage({ error: true, msg: err.message });
+            console.log(err);
+        }
+    };
 
     const getTodaySubjects = (today) => {
         switch (today) {
             case 1:
-                dispacher({
-                    type: 'SET_TODAY_TABLE',
-                    payload: timeTable.mon,
-                })
-                break;
+                return fetchTable('mon')
             case 2:
-                dispacher({
-                    type: 'SET_TODAY_TABLE',
-                    payload: timeTable.tue,
-                })
-                break;
+                return fetchTable('tue')
             case 3:
-                dispacher({
-                    type: 'SET_TODAY_TABLE',
-                    payload: timeTable.wed,
-                })
-                break;
+                return fetchTable('wed')
             case 4:
-                dispacher({
-                    type: 'SET_TODAY_TABLE',
-                    payload: timeTable.thu,
-                })
-                break;
+                return fetchTable('thu')
             case 5:
-                dispacher({
-                    type: 'SET_TODAY_TABLE',
-                    payload: timeTable.fri,
-                })
-                break;
+                return fetchTable('fri')
             default:
                 break;
         }
     }
+
+    const fetchTable = async (day) => {
+
+        try {
+            const docSnap = await TableDataService.getTable(day);
+            const obj = docSnap.data()
+            console.log(obj);
+
+            dispacher({
+                type: 'SET_TODAY_TABLE',
+                payload: Object.values(obj)[0]
+            })
+
+        } catch (err) {
+            // setMessage({ error: true, msg: err.message });
+            console.log(err);
+        }
+    };
+
+
+
 
     return (
         <>
@@ -114,6 +110,9 @@ const Home = () => {
                 </div>
             </nav>
             <div className='home'>
+                {/* {
+                    students.stringify()
+                } */}
                 <div className="home__body">
                     {
                         visiblePage(currRoute)
