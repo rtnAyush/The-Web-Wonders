@@ -46,10 +46,14 @@
 
             .home__block {
                 .attendence__card {
-                    height: 200px;
+                    // height: 200px;
                     background-color: white;
                     border-radius: 10px;
                     margin: 10px;
+
+                    .header {
+                        text-align: center;
+                    }
                 }
 
                 .options {

@@ -156,7 +156,7 @@ const TimeTable = () => {
             const docSnap = await TableDataService.getTable('total');
             const obj = docSnap.data()
 
-            console.log(obj);
+            // console.log(obj);
             setClassDate([])
             switch (subject) {
                 case 'MA251':
@@ -321,7 +321,7 @@ const TimeTable = () => {
 
 
 
-    console.log(classDate);
+    // console.log(classDate);
 
 
     return (

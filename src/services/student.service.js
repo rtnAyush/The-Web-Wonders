@@ -21,10 +21,6 @@ class StudentDataService {
     return updateDoc(studentDoc, updatedAttendance);
   };
 
-  // deleteBook = (id) => {
-  //   const bookDoc = doc(db, "books", id);
-  //   return deleteDoc(bookDoc);
-  // };
 
   getAllStudents = () => {
     return getDocs(studentCollectionRef);
@@ -36,4 +32,5 @@ class StudentDataService {
   };
 }
 
+// eslint-disable-next-line
 export default new StudentDataService();

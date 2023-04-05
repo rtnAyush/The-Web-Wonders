@@ -38,7 +38,7 @@ const Home = () => {
         const today = new Date()
         getTodaySubjects(today.getDay())
 
-
+        // eslint-disable-next-line
     }, [])
 
 

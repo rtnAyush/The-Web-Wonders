@@ -7,13 +7,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-// import PersonAdd from '@mui/icons-material/PersonAdd';
 import Logout from '@mui/icons-material/Logout';
-import { useStateValue } from '../../context/index/StateProvider';
 
 
 export default function AccountMenu() {
-    const [{ user }] = useStateValue()
 
 
 

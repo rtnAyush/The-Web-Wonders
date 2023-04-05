@@ -178,7 +178,7 @@ export const initialState = {
 
 
 const reducer = (state, action) => {
-    console.log("reducer", action);
+    // console.log("reducer", action);
     switch (action.type) {
 
         case 'SET_CURR_ROUTE':

@@ -19,6 +19,7 @@ const Attendence = () => {
 
         selectSubject()
         // console.log('hello');
+        // eslint-disable-next-line
     }, [refresh])
 
 
@@ -28,7 +29,7 @@ const Attendence = () => {
         let randomNum = Math.floor(Math.random() * 10000)
         setRefresh(randomNum)
 
-        // window.location.reload();
+        window.location.reload();
         // dispacher({
         //     type: 'SET_CURR_ROUTE',
         //     payload: 'attendance',
@@ -41,17 +42,28 @@ const Attendence = () => {
 
         let currTime = '11:25'
 
-        if (currDate.getMinutes() < 10) {
-            currTime = currDate.getHours() + ":0" + currDate.getMinutes()
+
+        if (currDate.getHours() < 10) {
+            if (currDate.getMinutes() < 10) {
+                currTime = "0" + currDate.getHours() + ":0" + currDate.getMinutes()
+            } else {
+                currTime = "0" + currDate.getHours() + ":" + currDate.getMinutes()
+            }
         } else {
-            currTime = currDate.getHours() + ":" + currDate.getMinutes()
+            if (currDate.getMinutes() < 10) {
+                currTime = currDate.getHours() + ":0" + currDate.getMinutes()
+            } else {
+                currTime = currDate.getHours() + ":" + currDate.getMinutes()
+            }
         }
+
+
 
 
         // console.log(currTime);
 
         if ((currTime >= '00:00' && currTime < '09:20') || (currTime >= '16:50' && currTime < '23:59')) {
-            console.log('out of schedule');
+            // console.log('out of schedule');
 
             setCollage('End of Working Hour')
         } else {

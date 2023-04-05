@@ -6,7 +6,6 @@ import {
     getDoc,
     addDoc,
     updateDoc,
-    deleteDoc,
     doc,
 } from "firebase/firestore";
 
@@ -22,10 +21,7 @@ class TableDataService {
         return updateDoc(tableDoc, updatedTable);
     };
 
-    // deleteBook = (id) => {
-    //   const bookDoc = doc(db, "books", id);
-    //   return deleteDoc(bookDoc);
-    // };
+
 
     getAllTable = () => {
         return getDocs(TableCollectionRef);
@@ -36,5 +32,5 @@ class TableDataService {
         return getDoc(tableDoc);
     };
 }
-
+// eslint-disable-next-line
 export default new TableDataService();

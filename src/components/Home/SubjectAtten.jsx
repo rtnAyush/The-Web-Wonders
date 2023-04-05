@@ -23,7 +23,7 @@ const SubjectAtten = ({ subject, startTime, endTime }) => {
     const [student, setStudent] = useState();
     const [userLocation, setUserLocation] = useState({});
     const [isPresent, setIsPresent] = useState(false);
-    console.log(subject);
+    // console.log(subject);
 
     useEffect(() => {
 
@@ -48,7 +48,6 @@ const SubjectAtten = ({ subject, startTime, endTime }) => {
             console.log(err);
         }
     }
-
 
 
     const handlePresent = async () => {
@@ -87,11 +86,21 @@ const SubjectAtten = ({ subject, startTime, endTime }) => {
 
                         const currDate = new Date()
                         let currTime
-                        if (currDate.getMinutes() < 10) {
-                            currTime = currDate.getHours() + ":0" + currDate.getMinutes()
+
+                        if (currDate.getHours() < 10) {
+                            if (currDate.getMinutes() < 10) {
+                                currTime = "0" + currDate.getHours() + ":0" + currDate.getMinutes()
+                            } else {
+                                currTime = "0" + currDate.getHours() + ":" + currDate.getMinutes()
+                            }
                         } else {
-                            currTime = currDate.getHours() + ":" + currDate.getMinutes()
+                            if (currDate.getMinutes() < 10) {
+                                currTime = currDate.getHours() + ":0" + currDate.getMinutes()
+                            } else {
+                                currTime = currDate.getHours() + ":" + currDate.getMinutes()
+                            }
                         }
+
                         localStorage.setItem('clickTime', currTime)
                     }
                 } catch (err) {
@@ -122,59 +131,35 @@ const SubjectAtten = ({ subject, startTime, endTime }) => {
         switch (subject) {
             case 'MA251':
                 return {
-                    MA251: {
-                        present: isNaN(student?.MA251?.present) ? 1 : student.MA251.present + 1,
-                        total: isNaN(student?.MA251?.total) ? 1 : student.MA251.total + 1,
-                    },
+                    MA251: isNaN(student?.MA251?.present) ? 1 : student.MA251.present + 1,
                 }
             case 'HM251':
                 return {
-                    HM251: {
-                        present: isNaN(student?.HM251?.present) ? 1 : student.HM251.present + 1,
-                        total: isNaN(student?.HM251?.total) ? 1 : student.HM251.total + 1,
-                    },
+                    HM251: isNaN(student?.HM251?.present) ? 1 : student.HM251.present + 1,
                 }
             case 'CS251':
                 return {
-                    CS251: {
-                        present: isNaN(student?.CS251?.present) ? 1 : student.CS251.present + 1,
-                        total: isNaN(student?.CS251?.total) ? 1 : student.CS251.total + 1,
-                    },
+                    CS251: isNaN(student?.CS251?.present) ? 1 : student.CS251.present + 1,
                 }
             case 'CS252':
                 return {
-                    CS252: {
-                        present: isNaN(student?.CS252?.present) ? 1 : student.CS252.present + 1,
-                        total: isNaN(student?.CS252?.total) ? 1 : student.CS252.total + 1,
-                    },
+                    CS252: isNaN(student?.CS252?.present) ? 1 : student.CS252.present + 1,
                 }
             case 'CS253':
                 return {
-                    CS253: {
-                        present: isNaN(student?.CS253?.present) ? 1 : student.CS253.present + 1,
-                        total: isNaN(student?.CS253?.total) ? 1 : student.CS253.total + 1,
-                    },
+                    CS253: isNaN(student?.CS253?.present) ? 1 : student.CS253.present + 1,
                 }
             case 'CS254':
                 return {
-                    CS254: {
-                        present: isNaN(student?.CS254?.present) ? 1 : student.CS254.present + 1,
-                        total: isNaN(student?.CS254?.total) ? 1 : student.CS254.total + 1,
-                    },
+                    CS254: isNaN(student?.CS254?.present) ? 1 : student.CS254.present + 1,
                 }
             case 'CS255':
                 return {
-                    CS255: {
-                        present: isNaN(student?.CS255?.present) ? 1 : student.CS255.present + 1,
-                        total: isNaN(student?.CS255?.total) ? 1 : student.CS255.total + 1,
-                    },
+                    CS255: isNaN(student?.CS255?.present) ? 1 : student.CS255.present + 1,
                 }
             case 'CS256':
                 return {
-                    CS256: {
-                        present: isNaN(student?.CS256?.present) ? 1 : student.CS256.present + 1,
-                        total: isNaN(student?.CS256?.total) ? 1 : student.CS256.total + 1,
-                    },
+                    CS256: isNaN(student?.CS256?.present) ? 1 : student.CS256.present + 1,
                 }
             default:
                 break;
