@@ -15,6 +15,7 @@ export const initialState = {
         regions: ''
     },
     authMsg: '',
+    myForms: [],
     todayTable: [],
     timeTable: {},
     timeTable1: {
@@ -178,9 +179,14 @@ export const initialState = {
 
 
 const reducer = (state, action) => {
-    // console.log("reducer", action);
+    console.log("reducer", action);
     switch (action.type) {
 
+        case 'SET_MY_FORMS':
+            return {
+                ...state,
+                myForms: action.payload,
+            }
         case 'SET_CURR_ROUTE':
             return {
                 ...state,

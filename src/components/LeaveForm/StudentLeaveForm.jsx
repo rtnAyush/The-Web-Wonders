@@ -3,9 +3,17 @@ import React, { useState } from 'react'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Nav from '../Home/Nav';
+import { Link, useNavigate, } from 'react-router-dom';
+
+import LeaveFormDataService from '../../services/leave.service'
+
 
 
 const StudentLeaveForm = () => {
+
+    const navigate = useNavigate()
+
+
     const [name, setName] = useState('')
     const [room, setRoom] = useState('')
     const [department, setDepartment] = useState('')
@@ -20,7 +28,41 @@ const StudentLeaveForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+
+        addForm()
     }
+
+    const addForm = async () => {
+        const studentId = localStorage.getItem('id')
+
+        const newForm = await {
+            name,
+            room,
+            department,
+            semester,
+            reason,
+            leavingDate: leaving,
+            returningDate: returning,
+            studentPhone,
+            fatherPhone,
+            motherPhone,
+            address,
+            studentId,
+        }
+
+
+        try {
+            await LeaveFormDataService.addForm(newForm)
+            alert('your query has been summited')
+            navigate('/leave-status')
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+
+
+
 
     return (
         <>
@@ -126,7 +168,13 @@ const StudentLeaveForm = () => {
                         multiline
                         maxRows={4}
                     />
-                    <Button variant="contained" type='submit'>Submit</Button>
+
+                    <div className="leave__btn">
+                        <Link to='/' >
+                            <Button variant="contained">back</Button>
+                        </Link>
+                        <Button variant="contained" type='submit'>Submit</Button>
+                    </div>
                 </form>
             </div>
         </>

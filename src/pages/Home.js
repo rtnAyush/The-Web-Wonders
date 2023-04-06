@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../components/Home/Home.scss'
 
 import Attendence from '../components/Home/Attendence'
@@ -10,8 +10,8 @@ import HomeComponent from '../components/Home/HomeComponent'
 
 import StudentDataService from '../services/student.service'
 import TableDataService from '../services/table.service'
-import AccountMenu from '../components/Home/AccountMenu'
 import Nav from '../components/Home/Nav'
+
 
 
 
@@ -40,10 +40,11 @@ const Home = () => {
         const today = new Date()
         getTodaySubjects(today.getDay())
 
+
         // eslint-disable-next-line
     }, [])
 
-
+    // console.log(user);
 
 
     const fetchUser = async () => {
@@ -96,6 +97,9 @@ const Home = () => {
     };
 
 
+
+
+    // console.log('temp', temp);
     return (
         <>
             <Nav />

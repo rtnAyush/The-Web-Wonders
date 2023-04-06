@@ -3,7 +3,7 @@
 
 
 git add .
-git commit -m "add big screen responsivness"
+git commit -m "Add hostel leave"
 # git branch -M main
 # git remote add origin https://github.com/Ayush211107/The-Web-Wonders.git
 git push origin main

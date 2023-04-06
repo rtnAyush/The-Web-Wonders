@@ -248,7 +248,7 @@ const SubjectAtten = ({ subject, startTime, endTime }) => {
                                         <DialogContentText className='dialog__done'>
 
                                             <img src={DoneGif} alt="" style={{ width: '100px', objectFit: 'cover' }} />
-                                            <span>{userLocation}</span>
+                                            <span>You are {userLocation} m from class</span>
                                         </DialogContentText>
                                     </DialogContent>
                                     <DialogActions>
@@ -267,7 +267,7 @@ const SubjectAtten = ({ subject, startTime, endTime }) => {
                                         <DialogContentText className='dialog__done'>
 
                                             <img src={SadGif} alt="" style={{ width: '100px', objectFit: 'cover' }} />
-                                            <span>{userLocation}</span>
+                                            <span>You are {userLocation} m from class</span>
 
                                         </DialogContentText>
                                     </DialogContent>

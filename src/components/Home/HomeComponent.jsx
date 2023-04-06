@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import AccountMenu from './AccountMenu'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -14,14 +14,21 @@ import Paper from '@mui/material/Paper';
 import { useStateValue } from '../../context/index/StateProvider';
 
 import TableDataService from '../../services/table.service'
+import LeaveFormDataService from '../../services/leave.service'
+
+
 
 const HomeComponent = () => {
-    const [{ user }] = useStateValue()
+    const navigate = useNavigate()
+    const [{ user }, dispacher] = useStateValue()
 
     const [totalClass, setTotalClass] = useState()
 
+    const [allForms, setAllForms] = useState([])
+
     useEffect(() => {
         fetchTotalClass()
+        getALlForms()
     }, [])
 
     const fetchTotalClass = async () => {
@@ -33,6 +40,37 @@ const HomeComponent = () => {
         }
     }
 
+    const getALlForms = async () => {
+
+        try {
+            const data = await LeaveFormDataService.getAllForms()
+
+            // console.log(data.docs);
+            setAllForms(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+
+        } catch (err) {
+            console.log(err);
+        }
+
+    }
+
+    const fetchMyform = () => {
+
+        // console.log(allForms, localStorage.getItem('id'));
+        const myForm = allForms.filter((s) => {
+            return s.studentId === localStorage.getItem('id')
+        })
+
+        if (myForm.length !== 0) {
+            dispacher({
+                type: 'SET_MY_FORMS',
+                payload: myForm
+            })
+        }
+
+        navigate('/leave-status')
+    }
+
     // console.log(totalClass);
     return (
         <div className="home__block">
@@ -41,6 +79,9 @@ const HomeComponent = () => {
                 <AccountMenu />
             </div>
             <div className="attendence__card">
+                <div className="header" style={{ textAlign: 'center', fontSize: '2rem' }}>
+                    Hello  {user?.name}
+                </div>
                 <div className="header" style={{ textAlign: 'center', fontSize: '2rem' }}>
                     Your Attendence
                 </div>
@@ -119,10 +160,10 @@ const HomeComponent = () => {
                 </TableContainer>
             </div>
 
-            <div className="options">
+            <div className="options" onClick={() => fetchMyform()}>
                 <div className="option">
                     <ExitToAppIcon />
-                    <Link to={'/leave-status'} className='name'>See Status for leave from Hostel</Link>
+                    <Link className='name'>See Status for leave from Hostel</Link>
                 </div>
             </div>
         </div>
