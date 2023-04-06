@@ -1,6 +1,6 @@
 .student__leave__form {
     margin: 20px;
-
+    max-width: 900px;
 
     .form {
         display: flex;
@@ -8,4 +8,22 @@
 
         gap: 10px;
     }
+}
+
+@media screen and (min-width: 414px) {
+    .student__leave__form {
+        margin: auto;
+    }
+}
+
+.leave__status {
+    max-width: 900px;
+    margin: 10px auto;
+}
+
+.float__left_side {
+    position: fixed;
+    // left: 15px;
+    right: 10px;
+    bottom: 70px;
 }

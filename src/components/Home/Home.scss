@@ -6,6 +6,121 @@
     .home__nav {
         display: none;
     }
+
+    .attendence__block {
+        margin: auto;
+        max-width: 900px;
+        flex: 1;
+        display: grid;
+
+        .clock {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+
+            .time {
+                color: #154EB7;
+                color: #3b98de;
+                font-size: 4rem;
+
+
+                .a {
+                    font-size: 1rem;
+                }
+            }
+
+            .date {
+                font-size: 1rem;
+            }
+        }
+
+        .subject__block {
+
+            .details {
+                display: grid;
+                justify-items: center;
+                gap: 20px;
+
+                .header {
+                    text-align: center;
+                }
+
+                // .sub__name {}
+
+                // .timings {}
+            }
+
+            .mark__btns {
+                margin: 20px;
+                display: flex;
+                justify-content: space-evenly;
+            }
+        }
+    }
+
+    .home__block {
+        max-width: 900px;
+        margin: auto;
+
+        .attendence__card {
+            // height: 200px;
+            background-color: white;
+            border-radius: 10px;
+            margin: 10px;
+
+            .header {
+                text-align: center;
+            }
+        }
+
+        .options {
+            // display: flex;
+            margin: 15px 5px;
+
+            .option {
+                max-width: 200px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                background-color: #3b98de;
+                border-radius: 5px;
+                color: white;
+                text-align: center;
+
+                padding: 10px 5px;
+
+                .name {
+                    text-decoration: none;
+                    color: white;
+                }
+            }
+        }
+    }
+
+    .time_table {
+        max-width: 900px;
+        margin: 10px auto;
+    }
+
+    .bottom {
+        position: fixed;
+        bottom: -2px;
+        width: 100%;
+        z-index: 10;
+    }
+
+    .float__aside {
+        position: fixed;
+        right: 15px;
+        bottom: 70px;
+    }
+
+    .float__right_side {
+        position: fixed;
+        left: 15px;
+        bottom: 70px;
+    }
 }
 
 
@@ -45,6 +160,10 @@
             flex-direction: column;
 
             .home__block {
+                .home__nav {
+                    background-color: white;
+                }
+
                 .attendence__card {
                     // height: 200px;
                     background-color: white;

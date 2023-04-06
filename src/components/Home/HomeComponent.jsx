@@ -37,10 +37,11 @@ const HomeComponent = () => {
     return (
         <div className="home__block">
             <div className="home__nav">
+                <p></p>
                 <AccountMenu />
             </div>
             <div className="attendence__card">
-                <div className="header">
+                <div className="header" style={{ textAlign: 'center', fontSize: '2rem' }}>
                     Your Attendence
                 </div>
                 <TableContainer component={Paper}>
@@ -121,7 +122,7 @@ const HomeComponent = () => {
             <div className="options">
                 <div className="option">
                     <ExitToAppIcon />
-                    <Link to={'/leave-form'} className='name'>Apply for leave</Link>
+                    <Link to={'/leave-status'} className='name'>See Status for leave from Hostel</Link>
                 </div>
             </div>
         </div>

@@ -3,6 +3,7 @@ import './App.css'
 import { Route, Routes } from "react-router-dom";
 import Login from "./components/Auth/Login";
 import StudentLeaveForm from "./components/LeaveForm/StudentLeaveForm";
+import LeaveStatus from "./components/LeaveForm/LeaveStatus";
 // import Attendence from "./components/Home/Attendence";
 // import TimeTable from "./components/TimeTable/TimeTable";
 
@@ -38,6 +39,10 @@ const App = () => {
 
         <Route path="/leave-form" element={
           <StudentLeaveForm />
+        }
+        />
+        <Route path="/leave-status" element={
+          <LeaveStatus />
         }
         />
 
