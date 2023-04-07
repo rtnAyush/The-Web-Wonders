@@ -48,6 +48,7 @@ const StudentLeaveForm = () => {
             motherPhone,
             address,
             studentId,
+            status: 'pending'
         }
 
 

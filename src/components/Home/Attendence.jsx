@@ -62,7 +62,7 @@ const Attendence = () => {
 
         // console.log(currTime);
 
-        if ((currTime >= '00:00' && currTime < '09:20') || (currTime >= '16:50' && currTime < '23:59')) {
+        if ((currTime >= '00:00' && currTime < '09:20') || (currTime >= '16:50' && currTime < '23:59') || (currDate.getDay() === 0) || (currDate.getDay() === 6)) {
             // console.log('out of schedule');
 
             setCollage('End of Working Hour')

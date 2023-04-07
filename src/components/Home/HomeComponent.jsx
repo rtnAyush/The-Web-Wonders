@@ -83,7 +83,7 @@ const HomeComponent = () => {
                     Hello  {user?.name}
                 </div>
                 <div className="header" style={{ textAlign: 'center', fontSize: '2rem' }}>
-                    Your Attendence
+                    Your Attendance
                 </div>
                 <TableContainer component={Paper}>
                     <Table aria-label="customized table">

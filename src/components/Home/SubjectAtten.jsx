@@ -64,7 +64,7 @@ const SubjectAtten = ({ subject, startTime, endTime }) => {
             // console.log(dis);
             setUserLocation(dis)
 
-            if (dis <= 2000) {
+            if (dis <= 200) {
                 setIsPresent(true)
 
 
@@ -121,7 +121,7 @@ const SubjectAtten = ({ subject, startTime, endTime }) => {
 
         } else {
             console.log('else1');
-            alert(location?.error.message)
+            alert(location?.error?.message)
         }
 
 
@@ -199,7 +199,7 @@ const SubjectAtten = ({ subject, startTime, endTime }) => {
                 <div className="details">
 
 
-                    <h1 className='header'>Mark Your Attendence For Below Subject</h1>
+                    <h1 className='header'>Mark Your Attendance For Below Subject</h1>
 
                     <p className="sub__name">
                         Subject:  {subject}
