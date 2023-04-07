@@ -1,4 +1,4 @@
-# Attendance Manager Application
+# Attendance Manager System
 This application is an  online attendance tracker and live timetable display system that allows one to keep track of live attendance and watch one's timetable in real-time. This readme file provides instructions on how to set up and use the system along with the features of this application.
 
 ## Getting Started
@@ -21,7 +21,7 @@ git clone https://github.com/Ayush211107/The-Web-Wonders.git
 bash
 cd attendance-tracker
 
-3. Open the index.html file in your web browser to access the attendance tracker and timetable.
+3. Open the link in your web browser to access the attendance tracker and timetable.
 
 ## Features
 1. Realtime timetable - Easy to track changes in the timetable and ensure that last second changes to the timetable reach the student
